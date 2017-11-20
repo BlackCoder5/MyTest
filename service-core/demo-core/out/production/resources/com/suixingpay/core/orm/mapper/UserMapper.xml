@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.suixingpay.core.orm.mapper.UserMapper">
+
+	<resultMap id="Result" type="com.domain.User">
+				<id property="id" column="id" />
+				<result property="name" column="name" />
+	</resultMap>
+
+	<sql id="columns">
+		id,name
+	</sql>
+
+
+	<insert id="save" parameterType="com.domain.User">
+		INSERT INTO USERS
+		(<include refid="columns"/>)
+		VALUES
+		(#{id}, #{name})
+	</insert>
+
+	<delete id="delete" parameterType="java.lang.String">
+		DELETE FROM USERS
+		WHERE id=#{id}
+	</delete>
+
+	<update id="update" parameterType="com.domain.User">
+		UPDATE USERS
+		<set>
+				<if test="@Ognl@isNotEmpty(userName)"> name=#{name}, </if>
+		</set>
+		WHERE id=#{id}
+	</update>
+
+	<select id="findOne" parameterType="java.lang.String" resultMap="Result">
+		SELECT <include refid="columns"/>
+		FROM USERS
+		WHERE id=#{id}
+	</select>
+
+	<select id="findAll" parameterType="java.lang.String" resultMap="Result">
+		SELECT <include refid="columns"/>
+		FROM USERS
+		<if test="@Ognl@isNotEmpty(list)">
+		WHERE id IN
+		<foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+				#{item}
+		</foreach>
+		</if>
+	</select>
+	<sql id="dynamicWhere">
+		<where>
+			<if test="@Ognl@isNotEmpty(id)"> AND id = #{id}  </if>
+			<if test="@Ognl@isNotEmpty(name)"> AND name  = #{name}  </if>
+		</where>
+	</sql>
+	<select id="find" parameterType="com.domain.User" resultMap="Result">
+		SELECT <include refid="columns"/>
+		FROM USERS
+		<include refid="dynamicWhere"/>
+	</select>
+</mapper>

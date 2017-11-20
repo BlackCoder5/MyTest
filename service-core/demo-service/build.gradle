@@ -1,0 +1,22 @@
+bootRepackage {
+    enabled = true
+}
+dependencies {
+    compile project (":demo-core")
+    compile("org.springframework.boot:spring-boot-starter-web:${springBootVersion}")
+    compile 'com.suixingpay.spark:dubbo-test:28.1-dev-SNAPSHOT'
+
+    compile ('com.alibaba:dubbo:2.8.4'){
+        exclude group: 'org.springframework'
+    }
+    compile ('com.101tec:zkclient:0.4'){
+        exclude group: 'org.slf4j'
+        exclude group: 'log4j'
+    }
+    compile ('org.apache.zookeeper:zookeeper:3.4.6'){
+        exclude group: 'org.slf4j'
+        exclude group: 'log4j'
+    }
+
+
+}

@@ -1,0 +1,7 @@
+
+dependencies {
+    compile("org.projectlombok:lombok")
+//    compile("com.suixingpay.common:common-dao-mybatis:${suixingpayVersion}")
+    compile 'com.suixingpay.spark:dubbo-test:28.1-dev-SNAPSHOT'
+//    compile 'MySQL:mysql-connector-java:5.1.24'
+}
